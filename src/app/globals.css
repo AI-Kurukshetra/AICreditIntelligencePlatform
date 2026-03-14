@@ -56,6 +56,108 @@ h2 {
   padding: 48px 0 72px;
 }
 
+.workspace-shell {
+  width: min(1380px, calc(100vw - 32px));
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 28px 0 40px;
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr);
+  gap: 18px;
+}
+
+.workspace-sidebar {
+  position: sticky;
+  top: 20px;
+  align-self: start;
+  padding: 24px;
+  display: grid;
+  gap: 20px;
+}
+
+.workspace-sidebar-head h1 {
+  font-size: 2rem;
+  line-height: 1;
+  letter-spacing: -0.05em;
+}
+
+.workspace-nav {
+  display: grid;
+  gap: 10px;
+}
+
+.workspace-link {
+  display: grid;
+  gap: 4px;
+  padding: 14px 16px;
+  border: 1px solid rgba(34, 28, 20, 0.08);
+  border-radius: 18px;
+  color: inherit;
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.42);
+  transition: transform 120ms ease, border-color 120ms ease, background-color 120ms ease;
+}
+
+.workspace-link:hover {
+  transform: translateY(-1px);
+  border-color: rgba(37, 95, 110, 0.2);
+}
+
+.workspace-link strong {
+  font-size: 0.98rem;
+}
+
+.workspace-link span {
+  color: var(--muted);
+  font-size: 0.84rem;
+  line-height: 1.45;
+}
+
+.workspace-link-active {
+  border-color: rgba(37, 95, 110, 0.26);
+  background: rgba(37, 95, 110, 0.08);
+}
+
+.workspace-sidebar-foot {
+  display: grid;
+  gap: 6px;
+  padding-top: 6px;
+  border-top: 1px solid var(--line);
+}
+
+.workspace-main {
+  display: grid;
+  gap: 16px;
+}
+
+.workspace-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 4px 0;
+}
+
+.workspace-header h2 {
+  font-size: 1.7rem;
+  letter-spacing: -0.04em;
+}
+
+.workspace-content {
+  display: grid;
+  gap: 18px;
+}
+
+.workspace-intro {
+  margin: 0;
+}
+
+.workspace-section-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
 .hero {
   display: grid;
   grid-template-columns: minmax(0, 1.7fr) minmax(280px, 0.9fr);
@@ -141,7 +243,7 @@ h2 {
 .metrics {
   margin-top: 24px;
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 16px;
 }
 
@@ -179,6 +281,41 @@ h2 {
 
 .panel {
   padding: 22px;
+}
+
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.menu-tile {
+  display: grid;
+  gap: 8px;
+  min-height: 144px;
+  padding: 18px;
+  border: 1px solid rgba(34, 28, 20, 0.08);
+  border-radius: 22px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.45)),
+    linear-gradient(135deg, rgba(37, 95, 110, 0.08), rgba(70, 83, 59, 0.05));
+  color: inherit;
+  text-decoration: none;
+  transition: transform 120ms ease, border-color 120ms ease;
+}
+
+.menu-tile:hover {
+  transform: translateY(-2px);
+  border-color: rgba(37, 95, 110, 0.24);
+}
+
+.menu-tile strong {
+  font-size: 1.05rem;
+}
+
+.menu-tile p {
+  color: var(--muted);
+  line-height: 1.6;
 }
 
 .panel-header {
@@ -278,6 +415,23 @@ h2 {
   letter-spacing: -0.04em;
 }
 
+.code-card {
+  display: grid;
+  gap: 14px;
+}
+
+.code-block {
+  margin: 0;
+  padding: 18px;
+  border-radius: 20px;
+  background: #1c1915;
+  color: #f7f1e7;
+  font-family: var(--font-mono);
+  font-size: 0.84rem;
+  line-height: 1.7;
+  overflow: auto;
+}
+
 .audit-row span {
   color: var(--muted);
   font-family: var(--font-mono);
@@ -285,6 +439,15 @@ h2 {
 }
 
 @media (max-width: 980px) {
+  .workspace-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .workspace-sidebar {
+    position: static;
+  }
+
+  .workspace-section-grid,
   .hero,
   .metrics,
   .grid {
@@ -302,13 +465,19 @@ h2 {
     padding: 28px 0 44px;
   }
 
+  .workspace-shell {
+    width: min(100vw - 24px, 100%);
+    padding: 20px 0 32px;
+  }
+
   .hero h1 {
     font-size: clamp(2.5rem, 16vw, 4rem);
   }
 
   .panel,
   .hero-panel,
-  .metric-card {
+  .metric-card,
+  .workspace-sidebar {
     border-radius: var(--radius-lg);
   }
 
@@ -503,6 +672,7 @@ h2 {
 
 @media (max-width: 720px) {
   .topbar,
+  .workspace-header,
   .auth-actions,
   .identity-row {
     flex-direction: column;
@@ -521,6 +691,10 @@ h2 {
 
   .auth-card {
     border-radius: var(--radius-lg);
+  }
+
+  .menu-grid {
+    grid-template-columns: 1fr;
   }
 }
 .hero-panel-footnote {

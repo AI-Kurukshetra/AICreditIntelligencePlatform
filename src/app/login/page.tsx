@@ -32,8 +32,8 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
           <h1>Secure access for the internal lending workspace.</h1>
           <p className="lede">
             {bootstrapOpen
-              ? "Create the first workspace admin directly. This path bypasses email confirmation only for the initial bootstrap user."
-              : "Use an existing operator account to enter the protected lending workspace."}
+              ? "Create the first workspace admin directly. No email confirmation step is required during bootstrap."
+              : "Use an existing operator account to enter the protected lending workspace. New users must be provisioned by an admin."}
           </p>
         </div>
       </section>
@@ -44,7 +44,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
           <h2>Authenticate with Supabase</h2>
           <p>
             Protected routes now rely on the authenticated session and RLS, not the service key.
-            {bootstrapOpen ? " First-user bootstrap is still open." : " Self-signup is closed."}
+            {bootstrapOpen ? " First-user bootstrap is still open." : " Self-signup is disabled; admin provisioning remains the onboarding path."}
           </p>
         </div>
 
