@@ -719,6 +719,23 @@ h2 {
   color: var(--blue);
 }
 
+.inline-banner {
+  margin: 18px 0 0;
+  padding: 12px 14px;
+  border-radius: 14px;
+  font-size: 0.92rem;
+}
+
+.inline-banner-error {
+  background: var(--red-soft);
+  color: var(--red);
+}
+
+.inline-banner-info {
+  background: var(--blue-soft);
+  color: var(--blue);
+}
+
 .panel-copy,
 .panel-subtle,
 .empty-state {
@@ -867,6 +884,34 @@ h2 {
 
 .source-option input {
   margin: 0;
+}
+
+.form-modal-dialog {
+  width: min(1120px, calc(100vw - 32px));
+  max-height: calc(100vh - 48px);
+  padding: 0;
+  border: none;
+  background: transparent;
+}
+
+.form-modal-dialog::backdrop {
+  background: rgba(34, 28, 20, 0.42);
+  backdrop-filter: blur(6px);
+}
+
+.form-modal-card {
+  width: 100%;
+  overflow: auto;
+}
+
+.form-modal-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.form-modal-content {
+  margin-top: 18px;
 }
 
 .intake-actions {

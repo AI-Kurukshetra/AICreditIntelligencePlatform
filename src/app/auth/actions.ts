@@ -539,6 +539,11 @@ export async function provisionWorkspaceMember(formData: FormData) {
 
 export async function signOut() {
   const supabase = await createSupabaseServerClient();
-  await supabase.auth.signOut();
-  redirect("/login");
+  const { error } = await supabase.auth.signOut();
+
+  if (error) {
+    redirect(toLoginRedirect(new URLSearchParams({ error: error.message }).toString()));
+  }
+
+  redirect(toLoginRedirect(new URLSearchParams({ message: "Signed out successfully." }).toString()));
 }

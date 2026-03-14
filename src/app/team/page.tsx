@@ -1,3 +1,4 @@
+import Script from "next/script";
 import { provisionWorkspaceMember } from "@/app/auth/actions";
 import { WorkspaceShell } from "@/components/workspace-shell";
 import { roleScope } from "@/lib/workspace-presenters";
@@ -22,8 +23,8 @@ export default async function TeamPage({ searchParams }: TeamPageProps) {
     <WorkspaceShell
       activePath="/team"
       displayName={displayName}
-      error={error}
-      message={message}
+      error={undefined}
+      message={undefined}
       role={role}
       userEmail={user.email ?? null}
     >
@@ -41,43 +42,103 @@ export default async function TeamPage({ searchParams }: TeamPageProps) {
                 <p className="eyebrow">Provisioning</p>
                 <h2>Create workspace members</h2>
               </div>
+              <button className="primary-button" id="open-team-provisioning" type="button">
+                Create workspace members
+              </button>
             </div>
             <p className="panel-subtle">
               Accounts are created immediately without sending an auth email. Share the initial password through your internal channel.
             </p>
-            <form className="admin-form" action={provisionWorkspaceMember}>
-              <input name="redirectTo" type="hidden" value="/team" />
-              <label className="field">
-                <span>Full name</span>
-                <input name="fullName" type="text" placeholder="Priya Joshi" autoComplete="name" />
-              </label>
-              <label className="field">
-                <span>Email</span>
-                <input name="email" type="email" placeholder="analyst@creditiq.ai" autoComplete="email" required />
-              </label>
-              <label className="field">
-                <span>Initial password</span>
-                <input
-                  name="password"
-                  type="password"
-                  placeholder="Minimum 6 characters"
-                  autoComplete="new-password"
-                  minLength={6}
-                  required
-                />
-              </label>
-              <label className="field">
-                <span>Role</span>
-                <select className="field-select" name="role" defaultValue="analyst">
-                  <option value="analyst">Analyst</option>
-                  <option value="underwriter">Underwriter</option>
-                  <option value="admin">Admin</option>
-                </select>
-              </label>
-              <button className="primary-button" type="submit">
-                Create member
-              </button>
-            </form>
+            <dialog
+              className="form-modal-dialog"
+              data-open-default={Boolean(error) || Boolean(message)}
+              id="team-provisioning-modal"
+            >
+              <div className="card panel form-modal-card">
+                <div className="panel-header">
+                  <div>
+                    <p className="eyebrow">Provisioning</p>
+                    <h2>Create workspace members</h2>
+                  </div>
+                  <button className="text-button form-modal-close" id="close-team-provisioning" type="button">
+                    Close
+                  </button>
+                </div>
+                <div className="form-modal-content">
+                  {error ? <p className="inline-banner inline-banner-error">{error}</p> : null}
+                  {message ? <p className="inline-banner inline-banner-info">{message}</p> : null}
+                  <form className="admin-form" action={provisionWorkspaceMember}>
+                    <input name="redirectTo" type="hidden" value="/team" />
+                    <label className="field">
+                      <span>Full name</span>
+                      <input name="fullName" type="text" placeholder="Priya Joshi" autoComplete="name" />
+                    </label>
+                    <label className="field">
+                      <span>Email</span>
+                      <input name="email" type="email" placeholder="analyst@creditiq.ai" autoComplete="email" required />
+                    </label>
+                    <label className="field">
+                      <span>Initial password</span>
+                      <input
+                        name="password"
+                        type="password"
+                        placeholder="Minimum 6 characters"
+                        autoComplete="new-password"
+                        minLength={6}
+                        required
+                      />
+                    </label>
+                    <label className="field">
+                      <span>Role</span>
+                      <select className="field-select" name="role" defaultValue="analyst">
+                        <option value="analyst">Analyst</option>
+                        <option value="underwriter">Underwriter</option>
+                        <option value="admin">Admin</option>
+                      </select>
+                    </label>
+                    <button className="primary-button" type="submit">
+                      Create member
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </dialog>
+            <Script id="team-provisioning-modal-script" strategy="afterInteractive">
+              {`(() => {
+                const dialog = document.getElementById("team-provisioning-modal");
+                const openButton = document.getElementById("open-team-provisioning");
+                const closeButton = document.getElementById("close-team-provisioning");
+
+                if (!(dialog instanceof HTMLDialogElement)) {
+                  return;
+                }
+
+                const showDialog = () => {
+                  if (!dialog.open) {
+                    dialog.showModal();
+                  }
+                };
+
+                const closeDialog = () => {
+                  if (dialog.open) {
+                    dialog.close();
+                  }
+                };
+
+                openButton?.addEventListener("click", showDialog);
+                closeButton?.addEventListener("click", closeDialog);
+
+                dialog.addEventListener("click", (event) => {
+                  if (event.target === dialog) {
+                    closeDialog();
+                  }
+                });
+
+                if (dialog.dataset.openDefault === "true") {
+                  showDialog();
+                }
+              })();`}
+            </Script>
           </article>
 
           <article className="card panel">

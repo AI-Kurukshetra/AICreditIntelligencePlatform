@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { WorkspaceShell } from "@/components/workspace-shell";
-import { decimal, money, roleScope, statusTone } from "@/lib/workspace-presenters";
+import { decimal, money, statusTone } from "@/lib/workspace-presenters";
 import { getWorkspacePageData } from "@/lib/workspace";
 
 export const dynamic = "force-dynamic";
@@ -27,27 +27,6 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
       role={role}
       userEmail={user.email ?? null}
     >
-      <section className="hero">
-        <div>
-          <p className="eyebrow">Dashboard</p>
-          <h1>Operate the lending stack from a routed workspace.</h1>
-          <p className="lede">
-            Navigation is now split by function: origination, risk, controls, and team operations.
-            Use this overview page for portfolio health, then move into the relevant menu area to act.
-          </p>
-        </div>
-        <div className="hero-panel">
-          <p className="panel-label">Access scope</p>
-          <h2>{data.activeModel?.model_name ?? "No active model"}</h2>
-          <p>{roleScope(role)}</p>
-          <p className="hero-panel-footnote">
-            {data.activeModel
-              ? `${data.activeModel.version} | AUC ${decimal.format(data.activeModel.accuracy_auc ?? 0)}`
-              : "Activate a model to populate live risk metadata here."}
-          </p>
-        </div>
-      </section>
-
       <section className="metrics">
         <article className="card metric-card">
           <p>Total applications</p>
